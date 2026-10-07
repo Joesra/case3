@@ -1,0 +1,6 @@
+# Het grote tussenbestand is niet nodig: de app bouwt de data zelf op uit de map data/
+vluchten_schoon.csv
+__pycache__/
+.venv/
+.vscode/
+*.pyc
