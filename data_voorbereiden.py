@@ -48,14 +48,18 @@ MAANDEN = ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt",
 # 1. Inlezen
 # --------------------------------------------------------------------------
 def laad_ruwe_vluchten(map_in: Path = DATA_MAP) -> pd.DataFrame:
-    """Vluchtschema inlezen zoals het is aangeleverd, alles als tekst."""
     zip_pad = map_in / "schedule_airport.zip"
     csv_pad = map_in / "schedule_airport.csv"
+
     pad = zip_pad if zip_pad.exists() else csv_pad
-    # utf-8-sig haalt de BOM weg die anders in de eerste kolomnaam blijft staan.
-    # dtype=str: codes als '05' of '093' houden zo hun voorloopnullen.
-    # keep_default_na=False: we willen zelf zien welke tekens "leeg" betekenen.
-    return pd.read_csv(pad, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+
+    return pd.read_csv(
+        pad,
+        encoding="utf-8-sig",
+        dtype=str,
+        keep_default_na=False,
+        compression="zip" if pad.suffix == ".zip" else None
+    )
 
 
 def laad_luchthavens(map_in: Path = DATA_MAP) -> pd.DataFrame:
